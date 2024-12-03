@@ -1,5 +1,8 @@
 #importing library for the gui
 import tkinter as tk
+import matplotlib.pyplot as plt
+from tkinter import Text
+from tkinter import Label
 
 #this is a simple window
 window = tk.Tk()
