@@ -5,4 +5,7 @@ import tkinter as tk
 window = tk.Tk()
 Convert_Audio_Button = tk.Button(window, text = "Convert Audio")
 Convert_Audio_Button.grid(column = 1, row = 0, sticky = "ne", padx = 10, pady = 10)
+
+convert_load = tk.Button (window, text = "Load Audio")
+convert_load.grid(column=1, row=0, sticky = "ne", padx =10, pady=5)
 window.mainloop()
