@@ -35,4 +35,3 @@ class DataProcessor:
         magnitude = np.abs(fft)
         max_index = np.argmax(magnitude)
         return int(freqs[max_index])
-

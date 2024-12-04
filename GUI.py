@@ -72,3 +72,13 @@ Convert_Audio_Button.grid(column = 2, row = 0, sticky = "ne", padx = 10, pady = 
 convert_load = tk.Button (window, text = "Load Audio")
 convert_load.grid(column=1, row=0, sticky = "ne", padx =10, pady=10)
 window.mainloop()'''
+
+
+'''window = tk.Tk()
+#Convert Audio button
+Convert_Audio_Button = tk.Button(window, text = "Convert Audio")
+Convert_Audio_Button.grid(column = 2, row = 0, sticky = "ne", padx = 10, pady = 10)
+#Load audio button
+convert_load = tk.Button (window, text = "Load Audio")
+convert_load.grid(column=1, row=0, sticky = "ne", padx =10, pady=10)
+window.mainloop()'''
