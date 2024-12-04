@@ -1,13 +1,9 @@
 #importing library for the gui
 import tkinter as tk
 from tkinter import messagebox, filedialog
-
-
 #import matplotlib.pyplot as plt
 #from tkinter import Text
 #from tkinter import Label
-#from tkinter import filedialog
-#from tkinter import messagebox
 
 #this is a simple window
 class GUI:
@@ -35,7 +31,8 @@ class GUI:
             if data:
                 self.controller.process_data(data)
 
-    def show_message(self, message):
+    @staticmethod
+    def show_message(message):
         messagebox.showinfo("Info", message)
 
     def display_stats(self, stats):
