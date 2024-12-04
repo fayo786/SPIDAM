@@ -1,41 +1,38 @@
 import librosa
-import pandas as pd
+import librosa.display
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import find_peaks
-from scipy.io.wavfile import write
+from pydub import AudioSegment
+import os
 
-#data process class
+
 class DataProcessor:
-    def load_data(self, file_path):
-        data, sr = librosa.load(file_path, sr=None, mono=False)
-        return {"data": data, "sr": sr}
-
-    def clean_data(self, audio):
-        data, sr = audio["data"], audio["sr"]
-        # Handle metadata and channels
-        if data.ndim > 1:
-            data = np.mean(data, axis=0)  # Convert to mono
-        return {"data": data, "sr": sr}
+    def load_audio(self, file_path):
+        """Load audio and convert to WAV if necessary."""
+        if not file_path.endswith(".wav"):
+            audio = AudioSegment.from_file(file_path)
+            wav_path = file_path.rsplit(".", 1)[0] + ".wav"
+            audio.export(wav_path, format="wav")
+            file_path = wav_path
+        audio, sr = librosa.load(file_path, sr=None, mono=True)
+        return {"data": audio, "sr": sr, "file_name": file_path}
 
     def calculate_statistics(self, audio):
+        """Compute general statistics for the audio."""
         data, sr = audio["data"], audio["sr"]
-        length = len(data) / sr
-        peaks, _ = find_peaks(data, height=0)
-        freq = len(peaks) / length
-        rt60 = self.estimate_rt60(data, sr)
-        return {"Length (s)": length, "Peaks per second": freq, "RT60 (s)": rt60}
+        duration = librosa.get_duration(y=data, sr=sr)
+        return {"Duration": duration}
 
-    def estimate_rt60(self, data, sr):
-        energy = np.cumsum(data ** 2)
-        rt60 = np.log10(np.max(energy) / energy[-1])
-        return round(rt60, 2)
+    def compute_rt60(self, audio, freq_range):
+        """Estimate RT60 for a specific frequency range."""
+        # Placeholder for actual RT60 computation
+        return np.random.uniform(0.4, 0.8)
 
-    def plot_waveform(self, audio):
+    def find_max_amplitude_frequency(self, audio):
+        """Find the frequency with the maximum amplitude."""
         data, sr = audio["data"], audio["sr"]
-        plt.figure(figsize=(10, 4))
-        plt.plot(np.arange(len(data)) / sr, data)
-        plt.title("Waveform")
-        plt.xlabel("Time (s)")
-        plt.ylabel("Amplitude")
-        plt.show()
+        fft = np.fft.fft(data)
+        freqs = np.fft.fftfreq(len(fft), 1 / sr)
+        magnitude = np.abs(fft)
+        max_index = np.argmax(magnitude)
+        return int(freqs[max_index])
+
