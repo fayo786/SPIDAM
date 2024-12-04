@@ -28,10 +28,10 @@ Software that allows users to make any audio file into a graph, such as a histog
   > After selecting the file, ensure that you press `Open` for the software to convert the file to .wav and store it for use in the program.
 
 * Seeing statistics (details of files) 
-  > After downloading a file, press the `Details` button to see statistics such as Time, Channels, Resonance, and RT60 Difference.
+  > After downloading a file, Statistic will show .....
 
 * Displaying a graph of the audio 
-  > After downloading a file, you can select any of the "Plot" buttons to plot the data, such as `Plot Spectrogram` or `Plot Combined Frequency`. This will cause a separate window to appear with the desired graph. Closing the separate plot window will not close the program.
+  > After downloading a file, you can select the "Plot" buttons to plot the data. This will cause a separate window to appear with the desired graph. Closing the separate plot window will not close the program.
   
 * Closing the program
   > To close the program anytime, use the `X` button built into the window.
