@@ -1,39 +1,62 @@
-from view import GUI
-from module import DataProcessor #improting a different module
+import librosa
+import module
+from module import DataProcessor
+from GUI import GUI
 import tkinter as tk
 
-#controller adds functionality and initializes
+#running module test
 class Controller:
     def __init__(self):
-      #Initializing window
         self.root = tk.Tk()
-      #calling the GUI method and class
         self.view = GUI(self.root, self)
-      #importing processing function
         self.processor = DataProcessor()
+        self.audio_data = None
+        self.rt60_values = {}
+        self.plots = ["Low", "Mid", "High"]
+        self.current_plot_index = 0
 
-  #functional load button
     def load_file(self, file_path):
+        """Load and process the selected audio file."""
         try:
-            data = self.processor.load_data(file_path)
-            self.view.show_message("File loaded successfully!")
-            return data
+            self.audio_data = self.processor.load_audio(file_path)
+            self.view.update_file_label(self.audio_data["file_name"])
+
+            self.analyze_audio()
         except Exception as e:
-            self.view.show_message(f"Error loading file: {e}")
-            return None
-#funtionality of processing function
-    def process_data(self, data):
-        try:
-            cleaned_data = self.processor.clean_data(data)
-            stats = self.processor.calculate_statistics(cleaned_data)
-            self.view.display_stats(stats)
-            self.processor.plot_waveform(cleaned_data)
-        except Exception as e:
-            self.view.show_message(f"Error processing data: {e}")
+            messagebox.showerror("Error", f"Error loading file: {e}")
+
+    def analyze_audio(self):
+        """Analyze the audio file and display statistics."""
+        stats = self.processor.calculate_statistics(self.audio_data)
+        rt60_low = self.processor.compute_rt60(self.audio_data, [125, 250])
+        rt60_mid = self.processor.compute_rt60(self.audio_data, [500, 1000])
+        rt60_high = self.processor.compute_rt60(self.audio_data, [2000, 4000])
+        max_freq = self.processor.find_max_amplitude_frequency(self.audio_data)
+
+        self.rt60_values = {"Low": rt60_low, "Mid": rt60_mid, "High": rt60_high}
+
+        stats_text = (
+            f"Duration: {stats['Duration']:.2f} seconds\n"
+            f"RT60 Low: {rt60_low:.2f} s\n"
+            f"RT60 Mid: {rt60_mid:.2f} s\n"
+            f"RT60 High: {rt60_high:.2f} s\n"
+            f"Frequency of Max Amplitude: {max_freq} Hz\n"
+        )
+        self.view.display_stats(stats_text)
+        self.view.plot_waveform(self.audio_data["data"], self.audio_data["sr"])
+
+    def toggle_frequency_plot(self):
+        """Toggle RT60 plots for Low, Mid, and High frequencies."""
+        freq = self.plots[self.current_plot_index]
+        value = self.rt60_values[freq]
+        self.view.plot_frequency_rt60(freq, value)
+        self.current_plot_index = (self.current_plot_index + 1) % len(self.plots)
 
     def run(self):
         self.root.mainloop()
 
+
 if __name__ == "__main__":
     app = Controller()
     app.run()
+
