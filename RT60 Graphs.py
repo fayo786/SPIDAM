@@ -90,18 +90,26 @@ def display_difference():
     plt.show()
 
 
-# Function to display additional visualizations (e.g., spectrogram)
 def display_additional_visualization():
     if not selected_file:
         messagebox.showwarning("Warning", "Please process an audio file first!")
         return
     try:
+        # Load the audio file
         audio, sr = librosa.load(selected_file, sr=None)
-        S = librosa.feature.melspectrogram(audio, sr=sr)
+
+        # Generate the Mel spectrogram
+        S = librosa.feature.melspectrogram(y=audio, sr=sr, n_mels=128, fmax=8000)
+
+        # Convert to decibels for better visualization
         S_dB = librosa.power_to_db(S, ref=np.max)
+
+        # Plot the spectrogram
+        plt.figure(figsize=(10, 4))
         librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', cmap='coolwarm')
         plt.colorbar(format='%+2.0f dB')
         plt.title("Mel Spectrogram")
+        plt.tight_layout()
         plt.show()
     except Exception as e:
         messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
