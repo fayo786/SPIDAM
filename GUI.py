@@ -3,6 +3,8 @@ import tkinter as tk
 import matplotlib.pyplot as plt
 from tkinter import Text
 from tkinter import Label
+from tkinter import filedialog
+from tkinter import messagebox
 
 #this is a simple window
 window = tk.Tk()
