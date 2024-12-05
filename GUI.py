@@ -34,7 +34,7 @@ class GUI:
 
     def load_file(self):
         """Load a file and send it to the controller."""
-        file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3 *.aac")])
+        file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3 *.aac *m4a")])
         if file_path:
             self.controller.load_file(file_path)
 
@@ -62,16 +62,6 @@ class GUI:
     def toggle_plot(self):
         """Toggle through Low, Mid, and High RT60 plots."""
         self.controller.toggle_frequency_plot()
-
-
-'''window = tk.Tk()
-#Convert Audio button
-Convert_Audio_Button = tk.Button(window, text = "Convert Audio")
-Convert_Audio_Button.grid(column = 2, row = 0, sticky = "ne", padx = 10, pady = 10)
-#Load audio button
-convert_load = tk.Button (window, text = "Load Audio")
-convert_load.grid(column=1, row=0, sticky = "ne", padx =10, pady=10)
-window.mainloop()'''
 
 
 '''window = tk.Tk()
