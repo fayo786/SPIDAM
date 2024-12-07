@@ -1,3 +1,4 @@
+import wave
 from modulefinder import Module
 from tkinter import messagebox
 import librosa
@@ -16,6 +17,7 @@ import tkinter as tk
 #running module test
 class Controller:
     def __init__(self):
+        self.module = module
         self.points = None
         self.root = tk.Tk()
         self.view = GUI(self.root, self)
@@ -36,8 +38,10 @@ class Controller:
 
             self.analyze_audio()
             self.RT60.process_audio(file_path)
+            self.RT60.audio_filter(newfile_path)
         except Exception as e:
             messagebox.showerror("Error", f"Error loading file: {e}")
+
 #analizyn audio data
     def analyze_audio(self):
         """Analyze the audio file and display statistics."""
@@ -46,6 +50,7 @@ class Controller:
         rt60_mid = self.processor.compute_rt60(self.audio_data, [500, 1000])
         rt60_high = self.processor.compute_rt60(self.audio_data, [2000, 4000])
         max_freq = self.processor.find_max_amplitude_frequency(self.audio_data)
+
 
         self.rt60_values = {"Low": rt60_low, "Mid": rt60_mid, "High": rt60_high}
 
@@ -60,14 +65,46 @@ class Controller:
         self.view.plot_waveform(self.audio_data["data"], self.audio_data["sr"])
 
 
-#toggle between diffrened plots
+#toggle between different plots
     def toggle_frequency_plot(self):
-        """Toggle RT60 plots for Low, Mid, and High frequencies."""
-        freq = self.plots[self.current_plot_index]
-        value = self.rt60_values[freq]
-        self.view.plot_frequency_rt60(freq, value)
-        self.current_plot_index = (self.current_plot_index + 1) % len(self.plots)
+        wf = wave.open('audio_lowcut.wav', 'rb')
+        print("opening doc")
+        frames = wf.readframes(wf.getnframes())
+        print("framing")
+        audio_data = np.frombuffer(frames, dtype=np.int16)
+        # Normalize data if needed
+        audio_data = audio_data / (2 ** (wf.getsampwidth() * 8 - 1))
+        # Create bins and count frequencies
+        bins = np.linspace(audio_data.min(), audio_data.max(), 20)
+        hist, _ = np.histogram(audio_data, bins=bins)
+        # Plot the histogram
+        plt.bar(bins[:-1], hist, width=np.diff(bins))
+        plt.xlabel("Amplitude")
+        plt.ylabel("Frequency")
+        plt.title("Lowcut File Histogram")
+        plt.show()
 
+#******************Histogram***********
+    def display_wav_histogram(self):
+        """Plots a histogram of amplitude values from a WAV file."""
+        if not newfile_path:
+            messagebox.showwarning("Warning", "Please process an audio file first!")
+            return
+        try:
+            with wave.open(newfile_path, 'r') as wav:
+
+            # Read the audio data
+                signal = wav.readframes(-1)
+                signal = np.frombuffer(signal, dtype=np.int16)
+
+            # Plot the histogram
+                plt.hist(signal, bins=50)
+                plt.title('Amplitude Histogram of ' + newfile_path)
+                plt.xlabel('Amplitude')
+                plt.ylabel('Frequency')
+                plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not generate histogram: {e}")
 
 #********************Spectrogram Graph&***********
     def display_additional_visualization(self):
@@ -93,6 +130,7 @@ class Controller:
             plt.show()
         except Exception as e:
             messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
+
 
     def run(self):
         self.root.mainloop()

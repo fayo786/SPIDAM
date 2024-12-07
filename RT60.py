@@ -3,8 +3,10 @@ from tkinter import filedialog, messagebox
 import numpy as np
 import librosa
 import matplotlib.pyplot as plt
+from scipy.io import wavfile
 from scipy.signal import butter, lfilter
-
+from scipy.sparse import data
+import wave
 
 # Function to create a bandpass filter
 def butter_bandpass(lowcut, highcut, fs, order=4):
@@ -20,6 +22,34 @@ def bandpass_filter(data, lowcut, highcut, fs, order=4):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, data)
     return y
+
+#something
+def audio_filter(file_path):
+    # Read a WAV file
+    wav_file = wave.open(file_path, "rb")
+    # Extract information
+    fs = wav_file.getframerate()  # Sampling rate
+    data = wav_file.readframes(wav_file.getnframes())  # Audio data as bytes
+    # Convert data to numerical array (depending on your library)
+    data = np.frombuffer(data, dtype=np.int16)
+
+    # Apply low-cut filter
+    lowcut = 125  # Cutoff frequency in Hz
+    data_lowcut = butter_bandpass(data, lowcut, fs / 2, fs)
+
+    # Apply high-cut filter
+    highcut = 2000  # Cutoff frequency in Hz
+    data_highcut = bandpass_filter(data, 0, highcut, fs)
+
+    #Apply mid-cut filter
+    midcut_low = 500  # Lower cutoff frequency in Hz
+    midcut_high = 1000  # Upper cutoff frequency in Hz
+    data_midcut = bandpass_filter(data, 0, midcut_low, fs) + bandpass_filter(data, midcut_high, fs / 2, fs)
+
+    # Save filtered audio files
+    wavfile.write('audio_lowcut.wav', fs, data_lowcut)
+    wavfile.write('audio_highcut.wav', fs, data_highcut)
+    wavfile.write('audio_midcut.wav', fs, data_midcut)
 
 
 # Function to calculate RT60 (reverberation time)
