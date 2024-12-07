@@ -123,7 +123,3 @@ def upload_file():
     )
     if file_path:
         process_audio(file_path)
-
-
-# Run the GUI
-app.mainloop()
