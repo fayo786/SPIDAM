@@ -110,4 +110,7 @@ class GUI:
     def display_wav_histogram(self):
         self.controller.display_wav_histogram()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ea80fe2ac958785c2cfcd66930632b0e9be63918
