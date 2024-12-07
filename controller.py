@@ -67,22 +67,11 @@ class Controller:
 
 #toggle between different plots
     def toggle_frequency_plot(self):
-        wf = wave.open('audio_lowcut.wav', 'rb')
-        print("opening doc")
-        frames = wf.readframes(wf.getnframes())
-        print("framing")
-        audio_data = np.frombuffer(frames, dtype=np.int16)
-        # Normalize data if needed
-        audio_data = audio_data / (2 ** (wf.getsampwidth() * 8 - 1))
-        # Create bins and count frequencies
-        bins = np.linspace(audio_data.min(), audio_data.max(), 20)
-        hist, _ = np.histogram(audio_data, bins=bins)
-        # Plot the histogram
-        plt.bar(bins[:-1], hist, width=np.diff(bins))
-        plt.xlabel("Amplitude")
-        plt.ylabel("Frequency")
-        plt.title("Lowcut File Histogram")
-        plt.show(block=False)
+        """Toggle RT60 plots for Low, Mid, and High frequencies."""
+        freq = self.plots[self.current_plot_index]
+        value = self.rt60_values[freq]
+        self.view.plot_frequency_rt60(freq, value)
+        self.current_plot_index = (self.current_plot_index + 1) % len(self.plots)
 
 #******************Histogram***********
     def display_wav_histogram(self):
