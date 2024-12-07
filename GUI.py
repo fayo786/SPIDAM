@@ -40,6 +40,7 @@ class GUI:
         self.toggle_button.pack(padx=5, pady=5)
 
         # Create the canvas for plot
+
         self.figure, self.axs = plt.subplots(1, 1, figsize=(3, 2))
         self.canvas = FigureCanvasTkAgg(self.figure, self.root)
         self.canvas.get_tk_widget().pack(padx=15, pady=15)
@@ -108,4 +109,5 @@ class GUI:
 
     def display_wav_histogram(self):
         self.controller.display_wav_histogram()
+
 
