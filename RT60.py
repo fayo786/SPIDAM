@@ -91,7 +91,7 @@ def display_individual_plots():
     plt.bar(bands, rt60_values, color=["blue", "green", "red"])
     plt.title("RT60 Values by Frequency Band")
     plt.ylabel("RT60 (s)")
-    plt.show()
+    plt.show(block=False)
 
 
 # Function to display a combined plot
@@ -103,7 +103,7 @@ def display_combined_plot():
     plt.plot(bands, rt60_values, marker="o", color="purple")
     plt.title("Combined RT60 Plot")
     plt.ylabel("RT60 (s)")
-    plt.show()
+    plt.show(block=False)
 
 
 # Function to show the difference needed to reach 0.5 seconds
@@ -117,7 +117,7 @@ def display_difference():
     plt.title("Difference to Reach 0.5 Seconds")
     plt.ylabel("Time Difference (s)")
     plt.axhline(0, color="black", linestyle="--", linewidth=0.8)
-    plt.show()
+    plt.show(block=False)
 
 
 def display_additional_visualization():
@@ -140,7 +140,7 @@ def display_additional_visualization():
         plt.colorbar(format='%+2.0f dB')
         plt.title("Mel Spectrogram")
         plt.tight_layout()
-        plt.show()
+        plt.show(block=False)
     except Exception as e:
         messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
 

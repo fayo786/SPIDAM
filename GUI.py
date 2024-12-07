@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import RT60
 
-
 class GUI:
 
     def __init__(self, root, controller):
@@ -41,9 +40,9 @@ class GUI:
         self.toggle_button.pack(padx=5, pady=5)
 
         # Create the canvas for plot
-        self.figure, self.axs = plt.subplots(1, 1, figsize=(8, 6))
+        self.figure, self.axs = plt.subplots(1, 1, figsize=(3, 2))
         self.canvas = FigureCanvasTkAgg(self.figure, self.root)
-        self.canvas.get_tk_widget().pack(padx=20, pady=30)
+        self.canvas.get_tk_widget().pack(padx=15, pady=15)
 
         # Output label below the graph
         self.output_label = tk.Label(self.root, text="", wraplength=400, justify="left")
@@ -110,7 +109,3 @@ class GUI:
     def display_wav_histogram(self):
         self.controller.display_wav_histogram()
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ea80fe2ac958785c2cfcd66930632b0e9be63918

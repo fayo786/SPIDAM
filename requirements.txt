@@ -5,7 +5,3 @@ tkinter
 librosa
 numpy
 pydub
-<<<<<<< HEAD
-
-=======
->>>>>>> ea80fe2ac958785c2cfcd66930632b0e9be63918

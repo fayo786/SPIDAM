@@ -38,7 +38,7 @@ class Controller:
 
             self.analyze_audio()
             self.RT60.process_audio(file_path)
-            self.RT60.audio_filter(newfile_path)
+#self.RT60.audio_filter(newfile_path)
         except Exception as e:
             messagebox.showerror("Error", f"Error loading file: {e}")
 
@@ -82,7 +82,7 @@ class Controller:
         plt.xlabel("Amplitude")
         plt.ylabel("Frequency")
         plt.title("Lowcut File Histogram")
-        plt.show()
+        plt.show(block=False)
 
 #******************Histogram***********
     def display_wav_histogram(self):
@@ -127,7 +127,7 @@ class Controller:
             plt.colorbar(format='%+2.0f dB')
             plt.title("Mel Spectrogram")
             plt.tight_layout()
-            plt.show()
+            plt.show(block=False)
         except Exception as e:
             messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
 
