@@ -1,7 +1,4 @@
 import tkinter as tk
-
-from fontTools.unicodedata import block
-
 from GUI import GUI
 from controller import Controller
 
