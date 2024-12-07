@@ -101,4 +101,4 @@ class GUI:
         self.RT60.display_difference()
 
     def toggle_plot(self):
-        self.controller.toggle_frequency_plot()"""
+        self.controller.toggle_frequency_plot()
