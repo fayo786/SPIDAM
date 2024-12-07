@@ -43,3 +43,5 @@ class DataProcessor:
         max_index = np.argmax(magnitude)
         return int(freqs[max_index])
 
+
+
