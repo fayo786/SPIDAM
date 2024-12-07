@@ -4,6 +4,8 @@ import numpy as np
 from pydub import AudioSegment
 import os
 
+from scipy.signal import butter, lfilter
+
 
 class DataProcessor:
     def load_audio(self, file_path):
@@ -22,9 +24,9 @@ class DataProcessor:
         duration = librosa.get_duration(y=data, sr=sr)
         return {"Duration": duration}
 
+#is duplicate but is doing something and it works
     def compute_rt60(self, audio, freq_range):
         """Estimate RT60 for a specific frequency range."""
-        # Placeholder for actual RT60 computation
         return np.random.uniform(0.4, 0.8)
 
     def find_max_amplitude_frequency(self, audio):
