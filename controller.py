@@ -1,3 +1,4 @@
+import wave
 from modulefinder import Module
 from tkinter import messagebox
 import librosa
@@ -16,6 +17,7 @@ import tkinter as tk
 #running module test
 class Controller:
     def __init__(self):
+        self.module = module
         self.points = None
         self.root = tk.Tk()
         self.view = GUI(self.root, self)
@@ -67,7 +69,27 @@ class Controller:
         value = self.rt60_values[freq]
         self.view.plot_frequency_rt60(freq, value)
         self.current_plot_index = (self.current_plot_index + 1) % len(self.plots)
+#******************Histogram***********
+    def display_wav_histogram(self):
+        """Plots a histogram of amplitude values from a WAV file."""
+        if not newfile_path:
+            messagebox.showwarning("Warning", "Please process an audio file first!")
+            return
+        try:
+            with wave.open(newfile_path, 'r') as wav:
 
+            # Read the audio data
+                signal = wav.readframes(-1)
+                signal = np.frombuffer(signal, dtype=np.int16)
+
+            # Plot the histogram
+                plt.hist(signal, bins=50)
+                plt.title('Amplitude Histogram of ' + newfile_path)
+                plt.xlabel('Amplitude')
+                plt.ylabel('Frequency')
+                plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not generate histogram: {e}")
 
 #********************Spectrogram Graph&***********
     def display_additional_visualization(self):
@@ -94,6 +116,8 @@ class Controller:
         except Exception as e:
             messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
 
+
     def run(self):
         self.root.mainloop()
+
 
