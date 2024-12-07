@@ -1,12 +1,22 @@
+from modulefinder import Module
+from tkinter import messagebox
 import librosa
+import numpy as np
+from librosa.core import audio
+from matplotlib import pyplot as plt
+from scipy.constants import value
+from scipy.signal import butter, lfilter
+import RT60
 import module
 from module import DataProcessor
 from GUI import GUI
 import tkinter as tk
 
+
 #running module test
 class Controller:
     def __init__(self):
+        self.points = None
         self.root = tk.Tk()
         self.view = GUI(self.root, self)
         self.processor = DataProcessor()
@@ -14,17 +24,21 @@ class Controller:
         self.rt60_values = {}
         self.plots = ["Low", "Mid", "High"]
         self.current_plot_index = 0
-
+        self.RT60 = RT60
+#loading files 
     def load_file(self, file_path):
         """Load and process the selected audio file."""
         try:
+            global newfile_path
+            newfile_path = file_path
             self.audio_data = self.processor.load_audio(file_path)
             self.view.update_file_label(self.audio_data["file_name"])
 
             self.analyze_audio()
+            self.RT60.process_audio(file_path)
         except Exception as e:
             messagebox.showerror("Error", f"Error loading file: {e}")
-
+#analizyn audio data
     def analyze_audio(self):
         """Analyze the audio file and display statistics."""
         stats = self.processor.calculate_statistics(self.audio_data)
@@ -45,6 +59,8 @@ class Controller:
         self.view.display_stats(stats_text)
         self.view.plot_waveform(self.audio_data["data"], self.audio_data["sr"])
 
+
+#toggle between diffrened plots
     def toggle_frequency_plot(self):
         """Toggle RT60 plots for Low, Mid, and High frequencies."""
         freq = self.plots[self.current_plot_index]
@@ -52,5 +68,32 @@ class Controller:
         self.view.plot_frequency_rt60(freq, value)
         self.current_plot_index = (self.current_plot_index + 1) % len(self.plots)
 
+
+#********************Spectrogram Graph&***********
+    def display_additional_visualization(self):
+        if not newfile_path:
+            messagebox.showwarning("Warning", "Please process an audio file first!")
+            return
+        try:
+            # Load the audio file
+            audio, sr = librosa.load(newfile_path, sr=None)
+
+            # Generate the Mel spectrogram
+            S = librosa.feature.melspectrogram(y=audio, sr=sr, n_mels=128, fmax=8000)
+
+            # Convert to decibels for better visualization
+            S_dB = librosa.power_to_db(S, ref=np.max)
+
+            # Plot the spectrogram
+            plt.figure(figsize=(10, 4))
+            librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', cmap='coolwarm')
+            plt.colorbar(format='%+2.0f dB')
+            plt.title("Mel Spectrogram")
+            plt.tight_layout()
+            plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not generate spectrogram: {e}")
+
     def run(self):
         self.root.mainloop()
+
