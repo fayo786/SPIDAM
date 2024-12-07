@@ -1,10 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import filedialog
 import librosa
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import wave
-import numpy as np
 import RT60
 
 
@@ -112,10 +110,3 @@ class GUI:
     def display_wav_histogram(self):
         self.controller.display_wav_histogram()
 
-
-
-    def display_difference(self):
-        self.RT60.display_difference()
-
-    def toggle_plot(self):
-        self.controller.toggle_frequency_plot()
