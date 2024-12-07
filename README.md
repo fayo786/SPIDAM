@@ -32,7 +32,11 @@ Software that allows users to make any audio file into a graph, such as a bar ch
   > A waveform of the audio will be displayed automatically
 
 * Displaying a graph of the audio 
-  > After downloading a file, you can select the "Plot" buttons to plot the data. This will cause a separate window to appear with the desired graph. 
+  > After downloading a file, you can select the "Plot" buttons to plot the data. This will cause a separate window to appear with the desired graph.
+  
+* Displaying a graph of the audio 
+  > Keep in mind that sometimes the plot window will need to be manually resized to show the graph, and keep in mind that you will have to run the program each time you want to display 
+    a different graph.
   
 * Closing the program
   > To close the program anytime, use the `X` button built into the window.
