@@ -125,30 +125,5 @@ def upload_file():
         process_audio(file_path)
 
 
-# Initialize GUI
-app = tk.Tk()
-app.title("Audio Processing Tool")
-app.geometry("400x300")
-
-rt60_values = []
-selected_file = None
-
-# Buttons
-upload_button = tk.Button(app, text="Upload Audio File", command=upload_file, width=30)
-upload_button.pack(pady=10)
-
-plot_individual_button = tk.Button(app, text="Display Individual RT60 Plots", command=display_individual_plots,
-                                   width=30)
-plot_individual_button.pack(pady=10)
-
-plot_combined_button = tk.Button(app, text="Display Combined RT60 Plot", command=display_combined_plot, width=30)
-plot_combined_button.pack(pady=10)
-
-difference_button = tk.Button(app, text="Show Difference to 0.5s", command=display_difference, width=30)
-difference_button.pack(pady=10)
-
-extra_button = tk.Button(app, text="Additional Visualization", command=display_additional_visualization, width=30)
-extra_button.pack(pady=10)
-
 # Run the GUI
 app.mainloop()
