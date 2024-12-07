@@ -3,11 +3,16 @@ import librosa.display
 import numpy as np
 from pydub import AudioSegment
 import os
-
+from scipy.io import wavfile
 from scipy.signal import butter, lfilter
+import controller
 
 
 class DataProcessor:
+    def __init__(self):
+        self.controller = controller
+        self.file_path = None
+
     def load_audio(self, file_path):
         """Load audio and convert to WAV if necessary."""
         if not file_path.endswith(".wav"):
@@ -37,3 +42,4 @@ class DataProcessor:
         magnitude = np.abs(fft)
         max_index = np.argmax(magnitude)
         return int(freqs[max_index])
+
