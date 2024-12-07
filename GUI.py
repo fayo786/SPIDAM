@@ -3,11 +3,13 @@ from tkinter import filedialog, messagebox, ttk
 import librosa
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
+import wave
+import numpy as np
 import RT60
 
 
 class GUI:
+
     def __init__(self, root, controller):
         self.root = root
         self.controller = controller
@@ -33,6 +35,9 @@ class GUI:
         #spectogram button
         self.extra_button = tk.Button(self.left_frame, text="Additional Visualization", command=self.additional_visualization, width=20)
         self.extra_button.pack(pady=5)
+        #histogram button
+        self.extra_button = tk.Button(self.left_frame, text="Histogram", command=self.display_wav_histogram, width=20)
+        self.extra_button.pack(pady=5)
         #Toggle button
         self.toggle_button = tk.Button(self.left_frame, text="Toggle Frequency Plots", command=self.toggle_plot)
         self.toggle_button.pack(padx=5, pady=5)
@@ -57,6 +62,7 @@ class GUI:
 
     def load_file(self):
         """Prompt user to load a file and pass it to the controller."""
+        global file_path
         file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.wav *.mp3 *.aac *m4a")])
         if file_path:
             self.controller.load_file(file_path)
@@ -96,6 +102,17 @@ class GUI:
 
     def combined_rt60(self):
         self.RT60.display_combined_plot()
+
+    def display_difference(self):
+        self.RT60.display_difference()
+
+    def toggle_plot(self):
+        self.controller.toggle_frequency_plot()
+
+    def display_wav_histogram(self):
+        self.controller.display_wav_histogram()
+
+
 
     def display_difference(self):
         self.RT60.display_difference()
