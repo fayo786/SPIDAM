@@ -8,6 +8,7 @@ Software that allows users to make any audio file into a graph, such as a bar ch
 * [Nedded Modules](#modules)
 * [Installation Instructions](#instructions)
 * [Usage](#how-to-use)
+* [Authors](#authors)
 
 ---
 <a name="instructions"></a>
@@ -74,3 +75,12 @@ The modules (and their versions) that are necessary to run the program from are 
 * [wave](https://docs.python.org/3/library/wave.html)
 
 The files [`controller.py`](https://github.com/fayo786/SPIDAM/blob/main/controller.py), [`module.py`](https://github.com/fayo786/SPIDAM/blob/main/module.py), [`GUI.py`](https://github.com/fayo786/SPIDAM/blob/main/GUI.py),[`RT60.py`](https://github.com/fayo786/SPIDAM/blob/main/RT60.py),[`main.py`](https://github.com/fayo786/SPIDAM/blob/main/main.py) must also be imported in order for the program to run.
+
+---
+<a name="authors"></a>
+## Authors
+> Melissa Fayo @fayo786
+
+> Seasmus Murray @Wimbafbp
+
+> David Serra @dav23asp 
